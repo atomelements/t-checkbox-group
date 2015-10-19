@@ -25,7 +25,7 @@
     "tests"
   ],
   "dependencies": {
-    "t-checkbox": "atomproject/t-checkbox#0.0.0",
+    "t-checkbox": "atomelements/t-checkbox#0.0.0",
     "iron-selector": "PolymerElements/iron-selector#1.0.2", 
     "polymer": "Polymer/polymer#^1.0.0"
   },
