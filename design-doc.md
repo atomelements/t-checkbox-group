@@ -11,7 +11,7 @@
 * Default Value: You missed this. 
 
 **3. Selected Values**
-* The value that is captured by this form element, after the user has used it during form submission.
+* The values that are captured by this form element, after the user has used it during form submission.
 * Shown as a list in the property panel.
 * Default Value:(Blank).
 
