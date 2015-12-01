@@ -6,12 +6,12 @@
             "label": {
                 "name": "Label",
                 "type": "string",
-                "value": ""
+                "value": "Untitled Checkbox List"
             },
             "data": {
                 "name": "Choices",
                 "type": "list",
-                "value": []
+                "value": ["First Choice","Second Choice","Third Choice"]
             }
         }
     }, {
