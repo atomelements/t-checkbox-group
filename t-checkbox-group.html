@@ -224,7 +224,7 @@ Polymer({
     },
 
     _dataChanged: function() {
-        if (this.data.length > 0) {
+        if (this.data && this.data.length > 0) {
             Polymer.dom(this.$.items).getDistributedNodes().forEach(function(element) {
                 element.remove();
             });
