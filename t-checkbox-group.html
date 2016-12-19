@@ -86,7 +86,7 @@ Example:
     }
     </style>
     <template>
-        <label>{{label}}</label>
+        <label hidden$="[[hideLabel]]">{{label}}</label>
         <p class="error">{{errorMessage}}</p>
         <iron-selector multi selected-values="{{selectedValues}}" attr-for-selected="{{selectionAttribute}}" selectable="t-checkbox">
             <content id="items" select="*"></content>
@@ -151,6 +151,15 @@ Polymer({
             type: Boolean,
             value: false,
             reflectToAttribute: true
+        },
+
+        /**
+         * Hides the label
+         * @default false
+         */
+        hideLabel: {
+            type: Boolean,
+            value: false
         },
 
         /**
