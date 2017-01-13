@@ -92,9 +92,9 @@ Light DOM Example:
     <template>
         <label hidden$="[[hideLabel]]">{{label}}</label>
         <p class="error">{{errorMessage}}</p>
-        <content id="items" select="*"></content>
+        
         <template is="dom-repeat" items="[[data]]" as="item">
-            <t-checkbox name$="[[item]]">[[item]]</t-checkbox>
+            <t-checkbox name$="[[_getValue(item)]]">[[_getLabel(item)]]</t-checkbox>
         </template>
     </template>
 </dom-module>
@@ -182,18 +182,6 @@ Polymer({
             notify: true
         },
 
-        /**
-         * Sets the attribute selection
-         * @attribute selected
-         * @type String
-         * @default name
-         */
-        selectionAttribute: {
-            type: String,
-            value: 'name'
-        },
-
-
         required: {
             type: Boolean,
             value: false
@@ -219,7 +207,26 @@ Polymer({
             type: Boolean,
             value: false,
             reflectToAttribute: true
-        }
+        },
+
+         /**
+         * Name property
+         */
+        valueKey: {
+            type: String,
+            value: '',
+            reflectToAttribute: true
+        },
+
+        /**
+         * Sets the label of the group leave empty for no label
+         * @default ""
+         */
+        labelKey: {
+            type: String,
+            value: "",
+            reflectToAttribute: true
+        },
 
 
 
@@ -228,9 +235,7 @@ Polymer({
 
     _dataChanged: function() {
         if (this.data && this.data.length > 0) {
-            Polymer.dom(this.$.items).getDistributedNodes().forEach(function(element) {
-                element.remove();
-            });
+            //do nothing for now.
         }
     },
 
@@ -241,35 +246,32 @@ Polymer({
      * @type array
      */
     get items() {
-        if (this.data && this.data.length) {
-            return Polymer.dom(this.root).querySelectorAll('t-checkbox');
-        } else {
-            return Polymer.dom(this.$.items).getDistributedNodes();
-        }
+        return Polymer.dom(this.root).querySelectorAll('t-checkbox');
     },
 
     //ensure checkbox checked state and iron selector state is maintained properly
     _onSelectedItemChange: function(newVal, oldVal) {
-        if (!newVal || !this.items || !this.selectionAttribute)
+        if (!newVal || !this.items)
             return;
 
-        if (newVal.indexOf('All') != -1) {
-            newVal = ['All']; //maintain only 'All' if present other values accidentally
+        if (newVal.indexOf('all') != -1) {
+            newVal = ['all']; //maintain only 'All' if present other values accidentally
+            
         }
 
         this.items.forEach(function(elem, elemIndex) {
-            var elemVal = elem.getAttribute(this.selectionAttribute);
+            var elemValue = elem.getAttribute('name');
 
             var isPresent = false;
             var atIndex = -1;
             newVal.forEach(function(val, valIndex) {
                 if (!isPresent) {
-                    isPresent = val.toLowerCase() == elemVal.toLowerCase();
+                    isPresent = val.toLowerCase() == elemValue.toLowerCase();
                     if (isPresent) {
                         atIndex = valIndex;
                     }
                 }
-            });
+            }.bind(this));
 
             if (isPresent) {
                 if (!elem.checked) {
@@ -285,6 +287,24 @@ Polymer({
         //this._handleAllOption(newVal);
     },
 
+    _getValue: function(item){
+        if(this.valueKey){
+            return item[this.valueKey];
+        }
+        else{
+            return item;
+        }
+    },
+
+     _getLabel: function(item){
+        if(this.labelKey){
+            return item[this.labelKey];
+        }
+        else{
+            return item;
+        }
+    },
+
     // _handleAllOption: function(changeVal) {
     //     if (changeVal && this.items) {
     //         if (changeVal.indexOf('All') != -1) {
@@ -298,10 +318,8 @@ Polymer({
     // },
 
     _onCheckedChange: function() {
-        if (!this.selectionAttribute)
-            return;
 
-        var val = Polymer.dom(arguments[0]).rootTarget.getAttribute(this.selectionAttribute);
+        var val = Polymer.dom(arguments[0]).rootTarget.getAttribute('name');
         //this.selectedValues = this.selectedValues ||[];
         if (Polymer.dom(arguments[0]).rootTarget.checked) {
             if (this.selectedValues.indexOf(val) == -1)

@@ -12,7 +12,27 @@
 </head>
 
 <body>
-    <t-checkbox-group label="Title" data='["First Choice","Second Choice","Third Choice"]' </t-checkbox-group>
+    <t-checkbox-group label="String Array" data='["First Choice","Second Choice","Third Choice"]'> </t-checkbox-group>
+        <t-checkbox-group id="objCG" label="Object Array" label-key="value" value-key="key"> </t-checkbox-group>
+        <script type="text/javascript">
+        window.addEventListener('WebComponentsReady', function(e) {
+            document.getElementById("objCG").data = [
+            // {
+            //     key: 'all',
+            //     value: 'All'
+            // },
+            {
+                key: 'key 1',
+                value: 'value 1'
+            }, {
+                key: 'key 2',
+                value: 'value 2'
+            }, {
+                key: 'key 3',
+                value: 'value 3'
+            }, ];
+        });
+        </script>
 </body>
 
 </html>
